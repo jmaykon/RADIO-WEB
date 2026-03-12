@@ -1,0 +1,51 @@
+{% extends is_htmx|yesno:"viewradio/base_fragment.html,viewradio/base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="relative z-20 pt-32 md:pt-40 max-w-7xl mx-auto px-6 mb-20 animate-fade-in">
+    <br>
+    <div class="mb-12">
+        <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase text-white tracking-tighter">
+            Nuestra <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-500">Programación</span>
+        </h2>
+        <div class="h-1 w-20 bg-cyan-500 mt-2"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="card-galaxy p-8 rounded-[2rem] border border-white/10 bg-white/5 hover:border-cyan-500/50 transition-all group">
+            <div class="flex justify-between items-start mb-6">
+                <div class="p-3 rounded-2xl bg-cyan-500/10 text-cyan-400">
+                    <i data-lucide="sun" class="w-8 h-8"></i>
+                </div>
+                <span class="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase">08:00 - 11:00 AM</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-cyan-400 transition-colors">PROGRAMA MAÑANERO</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">Inicia tu día con la mejor energía, noticias y los éxitos del momento.</p>
+            <div class="flex items-center gap-2 text-xs font-bold text-cyan-500/80 uppercase">
+                <span>Lunes a Viernes</span>
+            </div>
+        </div>
+
+        <div class="card-galaxy p-8 rounded-[2rem] border border-white/10 bg-white/5 hover:border-purple-500/50 transition-all group">
+            <div class="flex justify-between items-start mb-6">
+                <div class="p-3 rounded-2xl bg-purple-500/10 text-purple-400">
+                    <i data-lucide="mic-2" class="w-8 h-8"></i>
+                </div>
+                <span class="text-[10px] font-bold tracking-[0.2em] text-gray-500 uppercase">02:00 - 05:00 PM</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">Espacio Musical</h3>
+            <p class="text-gray-400 text-sm leading-relaxed mb-6">La mejor compañía para tus tardes con complacencias y entrevistas en vivo.</p>
+            <div class="flex items-center gap-2 text-xs font-bold text-purple-500/80 uppercase">
+                <span>Lunes a Sábado</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Esto es necesario para que los iconos carguen tras la inyección de HTMX
+    if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+    }
+</script>
+{% endblock %}  

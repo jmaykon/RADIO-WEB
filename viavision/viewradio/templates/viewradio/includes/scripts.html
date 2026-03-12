@@ -1,0 +1,16 @@
+{% load static %}
+<script src="https://unpkg.com/lucide@latest"></script>
+<script src="{% static 'viewradio/js/player.js' %}"></script>
+
+<script>
+    // Iniciar iconos
+    lucide.createIcons();
+
+    // Scroll Header
+    window.addEventListener('scroll', () => {
+        const header = document.getElementById('main-header');
+        if (header && window.scrollY > 20) {
+            header.querySelector('.glass-effect').classList.add('py-2', 'bg-black/80');
+        }
+    });
+</script>
