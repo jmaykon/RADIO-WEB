@@ -1,42 +1,32 @@
 {% load static %}
-{% load static %}
 <header id="main-header" class="fixed top-0 w-full z-50 transition-all duration-300">
     <div id="header-glass" class="glass-effect border-b border-white/5 px-4 py-0">
         <div class="max-w-7xl mx-auto flex items-center justify-between h-20 md:h-auto">
 
             <div class="flex-1 hidden lg:flex items-center">
-                <div
-                    class="flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+                <div class="flex items-center gap-3 px-5 py-2 rounded-full bg-white/5 border border-white/10 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
                     <i data-lucide="radio" class="w-6 h-6 text-cyan-400 animate-pulse"></i>
-                    <span class="text-xs font-oswald tracking-[0.2em] text-cyan-400 uppercase font-bold">
-                        En Línea
-                    </span>
+                    <span class="text-xs font-oswald tracking-[0.2em] text-cyan-400 uppercase font-bold">En Línea</span>
                 </div>
             </div>
 
             <div class="flex items-center justify-between w-full lg:w-auto md:flex-col md:justify-center">
-
-                <button id="mobile-menu-btn"
-                    class="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors z-[60]">
-                    <i data-lucide="menu" id="menu-icon" class="w-7 h-7"></i>
+                
+                <button id="mobile-menu-btn" class="md:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-colors z-[70] relative">
+                    <i data-lucide="menu" id="menu-icon" class="w-8 h-8"></i>
                 </button>
 
                 <a hx-get="{% url 'home' %}" hx-target="#main-content" hx-push-url="true"
-                    class="relative group flex flex-col items-center cursor-pointer mx-auto md:mx-0">
+                    class="relative group flex flex-col items-center cursor-pointer mx-auto md:mx-0" id="main-logo-link" hx-preserve>
                     <div class="relative flex flex-col items-center">
                         <img src="{% static 'viewradio/assets/img/logo/VIAIVISION FINAL.png' %}"
+                            alt="Logo"
                             class="h-20 sm:h-24 md:h-44 w-auto object-contain -mt-2 md:-mt-10 transition-all duration-500 group-hover:scale-105">
 
                         <div class="flex items-center w-full gap-2 -mt-3 md:-mt-8 mb-2">
-                            <div
-                                class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-40">
-                            </div>
-                            <span
-                                class="text-[8px] md:text-[10px] font-bold tracking-[0.4em] text-cyan-400 uppercase">105.5
-                                FM</span>
-                            <div
-                                class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-40">
-                            </div>
+                            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-40"></div>
+                            <span class="text-[8px] md:text-[10px] font-bold tracking-[0.4em] text-cyan-400 uppercase">105.5 FM</span>
+                            <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-40"></div>
                         </div>
                     </div>
                 </a>
@@ -45,141 +35,76 @@
 
                 <nav class="hidden md:block -mt-1 pb-3">
                     <ul class="flex items-center gap-6 lg:gap-8">
-                        <li><a hx-get="{% url 'programas' %}" hx-target="#main-content" class="nav-item">Programas</a>
-                        </li>
+                        <li><a hx-get="{% url 'programas' %}" hx-target="#main-content" hx-push-url="true" class="nav-item">Programas</a></li>
                         <li class="h-1 w-1 rounded-full bg-white/20"></li>
-                        <li><a hx-get="{% url 'inmobiliaria' %}" hx-target="#main-content"
-                                class="nav-item hover:text-cyan-400">Inmobiliaria</a></li>
+                        <li><a hx-get="{% url 'inmobiliaria' %}" hx-target="#main-content" hx-push-url="true" class="nav-item hover:text-cyan-400">Inmobiliaria</a></li>
                         <li class="h-1 w-1 rounded-full bg-white/20"></li>
-                        <li><a hx-get="{% url 'studio_live' %}" hx-target="#main-content"
-                                class="nav-item hover:text-purple-400">Set Live</a></li>
+                        <li><a hx-get="{% url 'studio_live' %}" hx-target="#main-content" hx-push-url="true" class="nav-item hover:text-purple-400">Set Live</a></li>
                         <li class="h-1 w-1 rounded-full bg-white/20"></li>
-                        <li><a hx-get="{% url 'contacto' %}" hx-target="#main-content"
-                                class="nav-item hover:text-pink-400">Contactos</a></li>
+                        <li><a hx-get="{% url 'contacto' %}" hx-target="#main-content" hx-push-url="true" class="nav-item hover:text-pink-400">Contactos</a></li>
                     </ul>
                 </nav>
             </div>
 
             <div class="flex-1 hidden lg:flex justify-end items-center">
-                <div
-                    class="flex flex-col items-end gap-1 px-5 py-2 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
+                <div class="flex flex-col items-end gap-1 px-5 py-2 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
                     <div class="flex items-center gap-2">
-                        <span id="current-time" class="text-lg font-oswald font-bold text-white tracking-wider">{% now
-                            "H:i:s" %}</span>
+                        <span id="current-time" class="text-lg font-oswald font-bold text-white tracking-wider">00:00:00</span>
                         <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse"></span>
                     </div>
-                    <div class="text-[10px] font-oswald uppercase tracking-[0.2em] text-gray-400 font-medium">{% now "j
-                        \d\e F, Y" %}</div>
+                    <div id="current-date" class="text-[10px] font-oswald uppercase tracking-[0.2em] text-gray-400 font-medium"></div>
                 </div>
             </div>
         </div>
     </div>
-
-    <div id="mobile-menu"
-        class="hidden fixed inset-0 z-50 bg-black/98 backdrop-blur-2xl flex flex-col items-center justify-center transition-all duration-300">
-        <ul class="flex flex-col items-center gap-8">
-            <li><a hx-get="{% url 'programas' %}" hx-target="#main-content"
-                    class="mobile-nav-item text-white">Programas</a></li>
-            <li><a hx-get="{% url 'inmobiliaria' %}" hx-target="#main-content"
-                    class="mobile-nav-item text-cyan-400">Inmobiliaria</a></li>
-            <li><a hx-get="{% url 'studio_live' %}" hx-target="#main-content"
-                    class="mobile-nav-item text-purple-400">Set Live</a></li>
-            <li><a hx-get="{% url 'contacto' %}" hx-target="#main-content"
-                    class="mobile-nav-item text-pink-400">Contactos</a></li>
-        </ul>
-    </div>
 </header>
 
-<style>
-    .nav-item {
-        @apply cursor-pointer text-xs font-oswald font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-white transition-all py-2;
-    }
-
-    .mobile-nav-item {
-        @apply text-xl font-oswald font-bold uppercase tracking-[0.2em];
-    }
-</style>
-
 <script>
-    // --- LÓGICA DEL MENÚ HAMBURGUESA ---
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    menuBtn.addEventListener('click', () => {
-        mobileMenu.classList.toggle('hidden');
-        // Opcional: Cambiar icono de hamburguesa a X si usas Lucide
-        const icon = menuBtn.querySelector('i');
-        if (mobileMenu.classList.contains('hidden')) {
-            icon.setAttribute('data-lucide', 'menu');
-        } else {
-            icon.setAttribute('data-lucide', 'x');
-        }
-        lucide.createIcons(); // Refrescar iconos
-    });
-
-    // Cierra el menú al hacer clic en un enlace (para HTMX)
-    document.querySelectorAll('.mobile-nav-item').forEach(link => {
-        link.addEventListener('click', () => mobileMenu.classList.add('hidden'));
-    });
-
-    // --- TU LÓGICA ORIGINAL DE OYENTES ---
-    const MIN_OYENTES = 500;
-    const MAX_OYENTES = 1000;
-
-    function generarRandom(min, max) {
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+    // Función para el reloj (JS puro para que no dependa de Django tras la carga)
+    function startClock() {
+        const timeEl = document.getElementById('current-time');
+        const dateEl = document.getElementById('current-date');
+        
+        const update = () => {
+            const now = new Date();
+            if (timeEl) timeEl.textContent = now.toLocaleTimeString('es-ES', { hour12: false });
+            if (dateEl) {
+                const options = { day: 'numeric', month: 'long', year: 'numeric' };
+                dateEl.textContent = now.toLocaleDateString('es-ES', options).toUpperCase();
+            }
+        };
+        setInterval(update, 1000);
+        update();
     }
 
-    function actualizarDashboard() {
-        const el = document.getElementById('live-listeners');
-        if (!el) return;
-
-        if (el.innerText === "...") {
-            el.innerText = generarRandom(MIN_OYENTES, MAX_OYENTES);
-            return;
-        }
-
-        let actual = parseInt(el.innerText.replace(/,/g, ''));
-        const variacion = Math.floor(Math.random() * 9) - 3;
-        let nuevoTotal = actual + variacion;
-
-        if (nuevoTotal < MIN_OYENTES) nuevoTotal = MIN_OYENTES;
-        if (nuevoTotal > MAX_OYENTES) nuevoTotal = MAX_OYENTES;
-
-        el.innerText = nuevoTotal.toLocaleString();
-        el.style.transition = "color 0.3s ease";
-        el.style.color = variacion > 0 ? "#22d3ee" : "#ffffff";
-
-        setTimeout(() => {
-            el.style.color = "white";
-        }, 600);
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        actualizarDashboard();
-        setInterval(actualizarDashboard, 2000);
-    });
-</script>
-<script>
-    const menuBtn = document.getElementById('mobile-menu-btn');
-    const mobileMenu = document.getElementById('mobile-menu');
-    const menuIcon = document.getElementById('menu-icon');
-
-    // Abre y cierra el menú
-    menuBtn.addEventListener('click', () => {
-        const isHidden = mobileMenu.classList.toggle('hidden');
-        menuIcon.setAttribute('data-lucide', isHidden ? 'menu' : 'x');
-        lucide.createIcons(); // Importante para que el icono cambie
-    });
-
-    // CIERRA EL MENÚ AL HACER CLIC EN UN ENLACE (Añade esto aquí)
-    document.querySelectorAll('.mobile-nav-item').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.add('hidden');
-            menuIcon.setAttribute('data-lucide', 'menu');
+    // Reiniciar componentes de UI
+    function initUI() {
+        if (window.lucide) {
             lucide.createIcons();
-        });
+        }
+        
+        // Lógica Menú Móvil
+        const menuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuIcon = document.getElementById('menu-icon');
+
+        if (menuBtn && mobileMenu) {
+            menuBtn.onclick = () => {
+                const isHidden = mobileMenu.classList.toggle('hidden');
+                menuIcon.setAttribute('data-lucide', isHidden ? 'menu' : 'x');
+                lucide.createIcons();
+            };
+        }
+    }
+
+    // Ejecución inicial
+    document.addEventListener('DOMContentLoaded', () => {
+        startClock();
+        initUI();
     });
 
-    // ... (aquí sigue tu lógica de los oyentes y el reloj)
+    // Escuchar eventos de HTMX para refrescar iconos y menú
+    document.body.addEventListener('htmx:afterSwap', () => {
+        initUI();
+    });
 </script>

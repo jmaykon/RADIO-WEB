@@ -35,9 +35,10 @@ def home(request):
     return render(request, 'viewradio/home.html', context)
 
 def programas(request):
-    is_htmx = request.headers.get('HX-Request') == 'true'
-    return render(request, 'viewradio/programas.html', {'is_htmx': is_htmx})
-
+    context = {...}
+    if request.headers.get('HX-Request'):
+        return render(request, 'viewradio/programas_content.html', context) # Solo el contenido
+    return render(request, 'viewradio/programas.html', context) # Página completa con base
 def inmobiliaria(request):
     is_htmx = request.headers.get('HX-Request') == 'true'
     return render(request, 'viewradio/inmobiliaria.html', {'is_htmx': is_htmx})

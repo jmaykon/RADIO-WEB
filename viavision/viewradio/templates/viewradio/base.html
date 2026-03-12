@@ -7,42 +7,18 @@
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        .swiper-button-next,
-        .swiper-button-prev {
-            color: #22d3ee;
-        }
+        .swiper-button-next, .swiper-button-prev { color: #22d3ee; }
+        .swiper-pagination-bullet-active { background: #a855f7; }
+        .video-container video { object-fit: cover; width: 100%; height: 100%; }
 
-        .swiper-pagination-bullet-active {
-            background: #a855f7;
-        }
-
-        .video-container video {
-            object-fit: cover;
-            width: 100%;
-            height: 100%;
-        }
-
-        /* ESTILO ADICIONAL PARA EL SCROLL (Asegúrate de que esté aquí o en head.html) */
+        /* Estilo para el Header al hacer scroll */
         .header-scrolled {
             background: rgba(3, 0, 20, 0.98) !important;
-            /* Color oscuro sólido */
             border-bottom: 1px solid rgba(34, 211, 238, 0.3) !important;
             box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7);
-        }
-
-        /* Cuando el header tiene scroll, pegamos más el menú al logo */
-        .header-scrolled #nav-menu {
-            margin-top: -10px !important;
-            /* Lo sube un poco más para ahorrar espacio */
-            padding-bottom: 10px !important;
-        }
-
-        /* Opcional: Si quieres que la letra se haga más pequeña al bajar */
-        .header-scrolled #nav-menu a {
-            font-size: 9px;
-            letter-spacing: 0.1em;
         }
     </style>
 </head>
@@ -50,8 +26,7 @@
 <body class="font-sans min-h-screen text-white pb-40 bg-[#030014] overflow-x-hidden">
 
     <div class="fixed inset-0 z-0 pointer-events-none">
-        <div
-            class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a164d] via-[#030014] to-[#030014]">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#1a164d] via-[#030014] to-[#030014]">
         </div>
     </div>
 
@@ -62,13 +37,12 @@
     </main>
 
     {% include "viewradio/includes/footer.html" %}
-    {% include "viewradio/includes/scripts.html" %}
 
     <script>
-        // Función para cambiar el color del header al bajar
+        // 1. Lógica del Scroll
         window.addEventListener('scroll', function () {
             const glass = document.getElementById('header-glass');
-            if (glass) { // Verificamos que el ID exista
+            if (glass) {
                 if (window.scrollY > 30) {
                     glass.classList.add('header-scrolled');
                 } else {
@@ -76,11 +50,19 @@
                 }
             }
         });
-    </script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        lucide.createIcons();
-    </script>
-</body>
 
+        // 2. Inicialización de Lucide
+        function initIcons() {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        // Ejecutar al cargar y después de cada cambio de HTMX
+        document.addEventListener('DOMContentLoaded', initIcons);
+        document.body.addEventListener('htmx:afterSwap', initIcons);
+    </script>
+
+    {% include "viewradio/includes/scripts.html" %}
+</body>
 </html>
