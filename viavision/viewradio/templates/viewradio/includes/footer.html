@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 
-<audio id="radioPlayer" crossorigin="anonymous">
+<audio id="radioPlayer" crossorigin="anonymous" preload="none">
     <source src="https://5xwivbwmjp.localto.net/radio" type="audio/mpeg">
     Tu navegador no soporta el elemento de audio.
 </audio>
@@ -70,12 +70,9 @@
 </style>
 
 <script>
-    // Usamos window.onload para asegurar que TODO (iconos, html, estilos) cargó
+    // Usamos window.onload para asegurar que los elementos existan
     window.onload = () => {
-        // 1. Inicializar iconos
-        if (window.lucide) { 
-            lucide.createIcons(); 
-        }
+        if (window.lucide) { lucide.createIcons(); }
 
         const audio = document.getElementById('radioPlayer');
         const playBtn = document.getElementById('playBtn');
@@ -84,18 +81,18 @@
 
         let isPlaying = false;
 
-        // VERIFICACIÓN: Si no existen, avisar en consola pero no romper el código
         if (!playBtn || !audio) {
-            console.error("Error: No se encontró 'playBtn' o 'radioPlayer' en el HTML.");
+            console.error("Error: Elementos no encontrados.");
             return;
         }
 
-        playBtn.addEventListener('click', () => {
+        playBtn.addEventListener('click', function() {
+            const streamUrl = "https://5xwivbwmjp.localto.net/radio";
+
             if (!isPlaying) {
-                // ACCIÓN: PLAY
-                // Forzamos la recarga del src para conectar al stream actual
-                const streamUrl = "https://5xwivbwmjp.localto.net/radio";
+                // 1. Cargamos el audio justo antes de reproducir
                 audio.src = streamUrl;
+                audio.load(); 
 
                 audio.play().then(() => {
                     isPlaying = true;
@@ -107,20 +104,24 @@
                         liveIndicator.className = "h-2 w-2 rounded-full bg-cyan-400 animate-pulse";
                     }
                     
-                    // Cambiar icono a PAUSE
                     playBtn.innerHTML = '<i data-lucide="pause" class="fill-current w-6 h-6 md:w-8 md:h-8"></i>';
                     if (window.lucide) { lucide.createIcons(); }
 
                 }).catch(err => {
-                    console.error("Error al reproducir:", err);
-                    alert("No se pudo conectar a la radio. Revisa que BUTT esté transmitiendo en tu PC.");
+                    console.error("Error de reproducción:", err);
+                    
+                    // Si el error es por bloqueo de seguridad (Mixed Content)
+                    if (err.name === "NotAllowedError" || err.message.includes("supported")) {
+                        alert("El navegador bloqueó la radio por seguridad. Haz clic en el CANDADO de la barra de direcciones y selecciona 'Permitir contenido inseguro' o abre el link directo una vez.");
+                    } else {
+                        alert("No se pudo conectar. Verifica que BUTT esté transmitiendo.");
+                    }
                 });
 
             } else {
                 // ACCIÓN: PAUSE
                 audio.pause();
-                // Limpiamos el src para cerrar la conexión y no gastar datos
-                audio.src = "";
+                audio.src = ""; // Liberamos la conexión del túnel
                 
                 isPlaying = false;
                 if(statusText) {
@@ -131,7 +132,6 @@
                     liveIndicator.className = "h-2 w-2 rounded-full bg-gray-500";
                 }
 
-                // Cambiar icono a PLAY
                 playBtn.innerHTML = '<i data-lucide="play" class="fill-current w-6 h-6 md:w-8 md:h-8 ml-1"></i>';
                 if (window.lucide) { lucide.createIcons(); }
             }
