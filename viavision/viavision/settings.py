@@ -88,8 +88,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
-# Almacenamiento optimizado para producción (comprime archivos)
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Esto evita que la web se rompa si falta algún archivo estático
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # --- CONFIGURACIÓN DE SEGURIDAD PARA PRODUCCIÓN ---
 CSRF_TRUSTED_ORIGINS = ['https://via-vision.onrender.com']
