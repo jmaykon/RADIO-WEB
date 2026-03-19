@@ -42,6 +42,7 @@ def programas(request):
         'is_htmx': is_htmx,
     }
     return render(request, 'viewradio/programas.html', context)
+
 def inmobiliaria(request):
     is_htmx = request.headers.get('HX-Request') == 'true'
     return render(request, 'viewradio/inmobiliaria.html', {'is_htmx': is_htmx})
