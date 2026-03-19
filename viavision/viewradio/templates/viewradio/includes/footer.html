@@ -1,12 +1,9 @@
 {% load static %}
 
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 
-<audio id="radioPlayer" crossorigin="anonymous" preload="none">
-    <source src="https://5xwivbwmjp.localto.net/radio" type="audio/mpeg">
-    Tu navegador no soporta el elemento de audio.
-</audio>
+<audio id="radioPlayer" crossorigin="anonymous" preload="none"></audio>
 
 <a href="https://wa.me/59171264858" target="_blank"
     class="fixed right-0 top-1/2 -translate-y-1/2 z-[60] flex items-center group transition-all duration-300"
@@ -70,8 +67,8 @@
 </style>
 
 <script>
-    // Usamos window.onload para asegurar que los elementos existan
     window.onload = () => {
+        // Inicializar iconos de Lucide
         if (window.lucide) { lucide.createIcons(); }
 
         const audio = document.getElementById('radioPlayer');
@@ -82,20 +79,22 @@
         let isPlaying = false;
 
         if (!playBtn || !audio) {
-            console.error("Error: Elementos no encontrados.");
+            console.error("Error: Elementos del reproductor no encontrados.");
             return;
         }
 
         playBtn.addEventListener('click', function() {
+            // URL de Localtonet (esta URL se conecta a tu puerto 8001 en tu PC)
             const streamUrl = "https://5xwivbwmjp.localto.net/radio";
 
             if (!isPlaying) {
-                // 1. Cargamos el audio justo antes de reproducir
+                // Configurar fuente y forzar carga
                 audio.src = streamUrl;
                 audio.load(); 
 
                 audio.play().then(() => {
                     isPlaying = true;
+                    // Actualizar UI - Play
                     if(statusText) {
                         statusText.innerText = "En Vivo Ahora";
                         statusText.style.color = "#22d3ee";
@@ -104,26 +103,29 @@
                         liveIndicator.className = "h-2 w-2 rounded-full bg-cyan-400 animate-pulse";
                     }
                     
+                    // Cambiar icono a PAUSE
                     playBtn.innerHTML = '<i data-lucide="pause" class="fill-current w-6 h-6 md:w-8 md:h-8"></i>';
-                    if (window.lucide) { lucide.createIcons(); }
+                    lucide.createIcons();
 
                 }).catch(err => {
-                    console.error("Error de reproducción:", err);
+                    console.error("Error de conexión:", err);
                     
-                    // Si el error es por bloqueo de seguridad (Mixed Content)
-                    if (err.name === "NotAllowedError" || err.message.includes("supported")) {
-                        alert("El navegador bloqueó la radio por seguridad. Haz clic en el CANDADO de la barra de direcciones y selecciona 'Permitir contenido inseguro' o abre el link directo una vez.");
+                    // Fallback: Intento de rescate si el HTTPS falla
+                    if (audio.src.includes("https")) {
+                        audio.src = streamUrl.replace("https", "http");
+                        audio.play();
                     } else {
-                        alert("No se pudo conectar. Verifica que BUTT esté transmitiendo.");
+                        alert("No se pudo conectar a la radio.\n\n1. Verifica que BUTT esté en puerto 8001.\n2. Si estás en PC, haz clic en el candado del navegador y permite 'Contenido inseguro'.");
                     }
                 });
 
             } else {
-                // ACCIÓN: PAUSE
+                // Acción: PAUSE
                 audio.pause();
-                audio.src = ""; // Liberamos la conexión del túnel
+                audio.src = ""; // Liberar recursos y cerrar conexión del túnel
                 
                 isPlaying = false;
+                // Actualizar UI - Pause
                 if(statusText) {
                     statusText.innerText = "Señal Digital";
                     statusText.style.color = "#9ca3af";
@@ -132,8 +134,9 @@
                     liveIndicator.className = "h-2 w-2 rounded-full bg-gray-500";
                 }
 
+                // Cambiar icono a PLAY
                 playBtn.innerHTML = '<i data-lucide="play" class="fill-current w-6 h-6 md:w-8 md:h-8 ml-1"></i>';
-                if (window.lucide) { lucide.createIcons(); }
+                lucide.createIcons();
             }
         });
     };
