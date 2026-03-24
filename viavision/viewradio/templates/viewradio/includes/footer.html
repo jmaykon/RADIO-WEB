@@ -21,7 +21,7 @@
 
 <footer class="fixed bottom-8 left-0 w-full z-50 px-4">
     <div class="max-w-xl mx-auto">
-        <div class="glass-effect rounded-full p-2 pr-2 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/20">
+        <div class="glass-effect rounded-full p-2 pr-2 flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.5)] border border-white/20" style="background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px);">
             <div class="flex items-center gap-4 pl-4">
                 <div class="relative">
                     <img src="{% static 'viewradio/assets/img/logo/retrocumbia.png' %}"
@@ -34,8 +34,8 @@
                         Via Vision 105.5
                     </h4>
                     <div class="flex items-center gap-1.5">
-                        <span id="liveIndicator" class="h-2 w-2 rounded-full bg-gray-500"></span>
-                        <span id="statusText" class="text-[10px] text-gray-400 font-bold uppercase tracking-widest">
+                        <span id="liveIndicator" class="h-2 w-2 rounded-full bg-gray-500 transition-all duration-300"></span>
+                        <span id="statusText" class="text-[10px] text-gray-400 font-bold uppercase tracking-widest transition-all duration-300">
                             Señal Digital
                         </span>
                     </div>
@@ -43,81 +43,81 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <span class="hidden md:block text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
+                <span id="actionLabel" class="hidden md:block text-[10px] text-gray-400 font-bold uppercase tracking-tighter">
                     Escuchar ahora
                 </span>
                 <button id="playBtn" 
                     class="flex items-center justify-center bg-gradient-to-tr from-cyan-600 to-cyan-400 text-white rounded-full w-12 h-12 md:w-14 md:h-14 transition-all transform hover:scale-110 active:scale-95 shadow-[0_0_20px_rgba(6,182,212,0.4)] border border-white/20">
-                    <i id="playIcon" data-lucide="play" class="fill-current w-6 h-6 md:w-8 md:h-8 ml-1"></i>
+                    <span id="btnIconContainer">
+                        <i data-lucide="play" class="fill-current w-6 h-6 md:w-8 md:h-8 ml-1"></i>
+                    </span>
                 </button>
             </div>
         </div>
     </div>
 </footer>
+
 <script>
     window.onload = () => {
-        // 1. Inicialización de Iconos (Lucide)
-        if (window.lucide) { 
-            lucide.createIcons(); 
-        }
+        if (window.lucide) { lucide.createIcons(); }
 
         const audio = document.getElementById('radioPlayer');
         const playBtn = document.getElementById('playBtn');
+        const btnIconContainer = document.getElementById('btnIconContainer');
         const statusText = document.getElementById('statusText');
         const liveIndicator = document.getElementById('liveIndicator');
+        const actionLabel = document.getElementById('actionLabel');
         
         let isPlaying = false;
-        
-        // URL de tu túnel zrok (ACTIVA)
         const streamUrl = "https://viavision.share.zrok.io/radio";
+
+        // Función para cambiar icono dinámicamente
+        const setIcon = (name, extraClass = "") => {
+            btnIconContainer.innerHTML = `<i data-lucide="${name}" class="${extraClass} fill-current w-6 h-6 md:w-8 md:h-8"></i>`;
+            lucide.createIcons();
+        };
 
         playBtn.addEventListener('click', function() {
             if (!isPlaying) {
-                // 2. Configuración y Carga Limpia
-                // Añadimos un timestamp (?t=...) para que el navegador no use audio guardado
+                // 1. ESTADO: CONECTANDO
+                statusText.innerText = "Conectando...";
+                statusText.style.color = "#fbbf24"; // Amarillo
+                actionLabel.innerText = "Cargando...";
+                setIcon("loader", "animate-spin");
+
                 audio.src = streamUrl + "?t=" + new Date().getTime();
-                audio.load();
-
-                const playPromise = audio.play();
-
-                if (playPromise !== undefined) {
-                    playPromise.then(() => {
-                        isPlaying = true;
-                        
-                        // 3. Actualizar Interfaz (REPRODUCIENDO)
-                        statusText.innerText = "En Vivo Ahora";
-                        statusText.style.color = "#22d3ee"; // Color Cyan
-                        liveIndicator.className = "h-2 w-2 rounded-full bg-cyan-400 animate-pulse";
-                        
-                        // Cambiar icono a PAUSE y renderizarlo
-                        playBtn.innerHTML = '<i data-lucide="pause" class="fill-current w-6 h-6 md:w-8 md:h-8"></i>';
-                        lucide.createIcons();
-                        
-                        console.log("Via Vision 105.5: Transmitiendo con éxito.");
-                    }).catch(err => {
-                        console.error("Error al reproducir:", err);
-                        alert("La señal no está disponible. Revisa que el CMD de zrok esté abierto en tu PC.");
-                    });
-                }
+                
+                audio.play().then(() => {
+                    // 2. ESTADO: REPRODUCIENDO
+                    isPlaying = true;
+                    statusText.innerText = "En Vivo Ahora";
+                    statusText.style.color = "#22d3ee"; 
+                    liveIndicator.className = "h-2 w-2 rounded-full bg-cyan-400 animate-pulse";
+                    actionLabel.innerText = "Reproduciendo";
+                    setIcon("pause");
+                }).catch(err => {
+                    // 3. ESTADO: ERROR (Servidor caído o sin internet)
+                    console.error("Error de streaming:", err);
+                    isPlaying = false;
+                    statusText.innerText = "No disponible";
+                    statusText.style.color = "#ef4444"; // Rojo
+                    liveIndicator.className = "h-2 w-2 rounded-full bg-red-500";
+                    actionLabel.innerText = "Error de conexión";
+                    setIcon("play", "ml-1");
+                    audio.src = ""; 
+                });
 
             } else {
-                // 4. Detener y Limpiar (PAUSA)
+                // 4. ESTADO: DETENER
                 audio.pause();
-                
-                // Vaciamos el src para liberar la memoria y los datos del túnel
                 audio.src = ""; 
                 isPlaying = false;
                 
-                // Actualizar Interfaz (DETENIDO)
                 statusText.innerText = "Señal Digital";
-                statusText.style.color = "#9ca3af"; // Color Gris
+                statusText.style.color = "#9ca3af"; 
                 liveIndicator.className = "h-2 w-2 rounded-full bg-gray-500";
-
-                // Cambiar icono a PLAY y renderizarlo
-                playBtn.innerHTML = '<i data-lucide="play" class="fill-current w-6 h-6 md:w-8 md:h-8 ml-1"></i>';
-                lucide.createIcons();
-                
-                console.log("Via Vision 105.5: Streaming detenido.");
+                actionLabel.innerText = "Escuchar ahora";
+                setIcon("play", "ml-1");
             }
         });
     };
