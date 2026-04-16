@@ -1,0 +1,84 @@
+{% extends request.headers.hx_request|yesno:"viewradio/base_fragment.html,viewradio/base.html" %}
+{% load static %}
+
+{% block content %}
+<main class="relative z-20 pt-32 md:pt-40 max-w-7xl mx-auto px-6 mb-20 animate-fade-in">
+    <br><br><br><br>
+    <div class="text-center mb-16">
+        <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase text-white tracking-widest">
+            Contacto <span class="text-cyan-400">&</span> Ubicación
+        </h2>
+        <p class="text-gray-400 mt-4 uppercase tracking-[0.3em] text-sm font-light">Conecta con la señal de ViaVision
+        </p>
+    </div>
+
+    <div class="space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="card-galaxy p-6 rounded-3xl border border-white/5 bg-white/5">
+                <i data-lucide="map-pin" class="w-6 h-6 text-cyan-400 mb-3"></i>
+                <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Dirección</h4>
+                <p class="text-sm text-white mt-1">Nº 683 Av. Armentia esquina plaza riosinio</p>
+            </div>
+            <div class="card-galaxy p-6 rounded-3xl border border-white/5 bg-white/5 relative overflow-hidden group">
+                <div class="flex items-start justify-between">
+                    <div>
+                        <div class="flex gap-2 mb-3">
+                            <i data-lucide="phone" class="w-6 h-6 text-green-400"></i>
+                            <i data-lucide="message-circle" class="w-6 h-6 text-green-500 fill-green-500/20"></i>
+                        </div>
+                        <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest">Cabina & WhatsApp</h4>
+                        <p class="text-sm text-white mt-1 font-mono tracking-wider">+591 71264858</p>
+                    </div>
+
+                    <a href="https://wa.me/59171264858" target="_blank"
+                        class="bg-green-500/10 hover:bg-green-500 text-green-500 hover:text-black p-2 rounded-xl transition-all duration-300">
+                        <i data-lucide="external-link" class="w-4 h-4"></i>
+                    </a>
+                </div>
+
+                <div class="absolute -right-2 -bottom-2 opacity-5">
+                    <i data-lucide="message-circle" class="w-20 h-20 text-green-500"></i>
+                </div>
+            </div>
+        </div>
+
+        <div
+            class="card-galaxy rounded-[2.5rem] overflow-hidden border border-white/10 bg-black h-80 relative group shadow-[0_0_30px_rgba(34,211,238,0.1)]">
+            <div class="absolute inset-0 bg-slate-900 flex items-center justify-center -z-10">
+                <div class="text-center">
+                    <i data-lucide="map" class="w-12 h-12 text-cyan-400 mx-auto mb-2 animate-pulse"></i>
+                    <p class="text-gray-400 text-[10px] uppercase tracking-widest">Cargando Mapa Satelital...</p>
+                </div>
+            </div>
+
+            <iframe
+                class="absolute inset-0 w-full h-full opacity-90 group-hover:opacity-100 transition-all duration-500"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d956.5516738923306!2d-68.13626783038673!3d-16.49042579888949!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x915f206e00000001%3A0x123456789abcdef!2sAv.%20Armentia%20683%2C%20La%20Paz!5e0!3m2!1ses!2sbo!4v1710000000000!5m2!1ses!2sbo"
+                frameborder="0" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+
+        <div class="card-galaxy p-8 rounded-3xl border border-white/5 bg-white/5">
+            <h4 class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                <i data-lucide="clock" class="w-4 h-4"></i> Horarios de Oficina
+            </h4>
+            <div class="flex justify-between text-sm">
+                <span class="text-gray-500">Lunes - Viernes</span>
+                <span class="text-white">09:00 AM - 18:00 PM</span>
+            </div>
+            <div class="flex justify-between text-sm mt-2 pt-2 border-t border-white/5">
+                <span class="text-gray-500">Sábados</span>
+                <span class="text-white">09:00 AM - 13:00 PM</span>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Vital para HTMX: Reiniciar iconos de Lucide
+    if (window.lucide) {
+        lucide.createIcons();
+    }
+</script>
+{% endblock %}

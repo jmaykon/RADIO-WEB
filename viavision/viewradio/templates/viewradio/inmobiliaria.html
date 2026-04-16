@@ -1,0 +1,210 @@
+{% extends request.headers.hx_request|yesno:"viewradio/base_fragment.html,viewradio/base.html" %}
+{% load static %}
+
+{% block content %}
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+<style>
+    /* Efecto Ken Burns para el carrusel */
+    .inmobiliariaSwiper .swiper-slide-active img {
+        animation: kenburns-inmo 6s ease-out both;
+    }
+
+    @keyframes kenburns-inmo {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.1); }
+    }
+
+    /* Paginación Cyan */
+    .inmobiliariaSwiper .swiper-pagination-bullet {
+        background: rgba(255, 255, 255, 0.5);
+    }
+    .inmobiliariaSwiper .swiper-pagination-bullet-active {
+        background: #22d3ee !important; 
+        width: 25px;
+        border-radius: 10px;
+    }
+
+    /* Estilos del Reproductor de Video (Optimizado) */
+    .vjs-theme-custom.video-js {
+        color: #22d3ee;
+    }
+    .vjs-theme-custom .vjs-big-play-button {
+        background-color: rgba(34, 211, 238, 0.2) !important;
+        border: 2px solid #22d3ee !important;
+        backdrop-filter: blur(8px);
+        width: 80px !important;
+        height: 80px !important;
+        border-radius: 50% !important;
+        margin-top: -40px !important;
+        margin-left: -40px !important;
+        transition: all 0.3s ease;
+    }
+    .vjs-theme-custom:hover .vjs-big-play-button {
+        background-color: rgba(34, 211, 238, 0.5) !important;
+        transform: scale(1.1);
+    }
+    .vjs-theme-custom .vjs-play-progress {
+        background-color: #22d3ee !important;
+    }
+</style>
+<br><br><br>
+<main class="relative z-20 pt-28 md:pt-36 max-w-7xl mx-auto px-6 mb-20 animate-fade-in">
+    <br>
+    <div class="mb-10 text-center md:text-left">
+        <h2 class="text-4xl md:text-6xl font-oswald font-bold uppercase text-white leading-none">
+            Inmobiliaria <span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Nueva Esperanza</span>
+        </h2>
+        <div class="flex items-center gap-2 mt-4 justify-center md:justify-start">
+            <span class="h-[2px] w-8 bg-cyan-500"></span>
+            <span class="text-cyan-400 font-oswald uppercase tracking-[0.3em] text-xs">Tu hogar, nuestra misión</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-20">
+        
+        <div class="space-y-6">
+            <div class="swiper inmobiliariaSwiper rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl shadow-cyan-500/10 bg-black aspect-video">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="{% static 'viewradio/assets/img/anuncios/anuncio1.jpg' %}" class="w-full h-full object-cover opacity-80" alt="Propiedad 1">
+                    </div>
+                    <div class="swiper-slide">
+                        <img src="{% static 'viewradio/assets/img/anuncios/anuncio2.jpg' %}" class="w-full h-full object-cover opacity-80" alt="Propiedad 2">
+                    </div>
+                </div>
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-next !text-white !scale-50"></div>
+                <div class="swiper-button-prev !text-white !scale-50"></div>
+            </div>
+
+            <p class="text-gray-400 italic border-l-2 border-cyan-500/50 pl-6 text-sm md:text-base leading-relaxed">
+                "En Nueva Esperanza, no solo vendemos propiedades; construimos el camino hacia tu nuevo hogar con la confianza y transparencia que tu familia merece."
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 gap-6">
+            <div class="card-galaxy p-8 rounded-[2rem] border border-white/5 bg-white/5 backdrop-blur-xl">
+                <h3 class="text-xl font-oswald font-bold text-white uppercase mb-6 flex items-center gap-3">
+                    <i data-lucide="info" class="text-cyan-400"></i> Sobre Nosotros
+                </h3>
+                <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                    Somos líderes en el sector inmobiliario regional, especializados en la preventa de terrenos y residencias de alta plusvalía. Nuestra alianza con **ViaVision Radio** nos permite llegar a miles de hogares.
+                </p>
+            </div>
+
+            <div class="card-galaxy p-8 rounded-[2rem] border border-white/5 bg-white/5 relative overflow-hidden backdrop-blur-xl transition-all hover:border-green-500/30">
+                <h3 class="text-xl font-oswald font-bold text-white uppercase mb-6 flex items-center gap-3">
+                    <i data-lucide="message-circle" class="text-green-400"></i> Contacto Directo
+                </h3>
+                
+                <div class="space-y-4 relative z-10">
+                    <a href="https://wa.me/59171264858" target="_blank" class="flex items-center justify-between p-4 rounded-2xl bg-green-500/10 border border-green-500/20 hover:bg-green-500/20 transition-all group">
+                        <div class="flex items-center gap-4">
+                            <i data-lucide="phone-call" class="text-green-400 w-5 h-5"></i>
+                            <div>
+                                <p class="text-[10px] text-green-400 uppercase font-bold tracking-widest">WhatsApp Ventas</p>
+                                <p class="text-white font-bold">+591 71264858</p>
+                            </div>
+                        </div>
+                        <i data-lucide="external-link" class="w-4 h-4 text-gray-500 group-hover:text-white"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-20 animate-fade-in" style="animation-delay: 0.3s;">
+        <div class="relative group max-w-5xl mx-auto">
+            
+            <div class="flex items-center gap-4 mb-10">
+                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+                <h3 class="text-2xl font-oswald font-bold text-white uppercase tracking-widest flex items-center gap-3">
+                    <i data-lucide="clapperboard" class="text-cyan-400"></i> Spot <span class="text-cyan-400">Publicitario</span>
+                </h3>
+                <div class="h-px flex-1 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
+            </div>
+
+            <div class="relative">
+                <div class="absolute -inset-1 bg-gradient-to-r from-cyan-600 to-blue-900 rounded-[2.5rem] blur opacity-10 group-hover:opacity-30 transition duration-1000"></div>
+                
+                <div class="relative rounded-[2.5rem] overflow-hidden border border-white/10 bg-black shadow-2xl">
+                    <video 
+                        id="anuncio-vjs" 
+                        class="video-js vjs-theme-custom vjs-big-play-centered w-full aspect-video"
+                        controls
+                        preload="auto"
+                        muted
+                        poster="{% static 'viewradio/assets/img/anuncios/anuncio1.jpg' %}"
+                        data-setup='{}'>
+                        <source src="{% static 'viewradio/assets/img/anuncios/logoanuncio.mp4' %}" type="video/mp4" />
+                    </video>
+                </div>
+
+                <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-cyan-600 text-white px-8 py-2 rounded-full font-bold text-[10px] uppercase tracking-[0.3em] shadow-xl z-10 border border-white/20 whitespace-nowrap">
+                    Producción Nueva Esperanza <span id="year-auto"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<script>
+    function startInmobiliariaExperience() {
+        // 1. Detectar Fecha Actual
+        const yearDisplay = document.getElementById('year-auto');
+        if (yearDisplay) {
+            yearDisplay.textContent = new Date().getFullYear();
+        }
+
+        // 2. Iconos Lucide
+        if (window.lucide) {
+            lucide.createIcons();
+        }
+
+        // 3. Configuración Swiper (Carrusel)
+        if (typeof Swiper !== 'undefined') {
+            new Swiper(".inmobiliariaSwiper", {
+                loop: true,
+                speed: 1000,
+                effect: "fade",
+                autoplay: { 
+                    delay: 4500, 
+                    disableOnInteraction: false 
+                },
+                pagination: { 
+                    el: ".swiper-pagination", 
+                    clickable: true 
+                },
+                navigation: { 
+                    nextEl: ".swiper-button-next", 
+                    prevEl: ".swiper-button-prev" 
+                },
+            });
+        }
+
+        // 4. Inicializar Video.js (Optimizado para rapidez)
+        if (document.getElementById('anuncio-vjs')) {
+            const player = videojs('anuncio-vjs', {
+                fluid: true,
+                responsive: true,
+                playbackRates: [0.5, 1, 1.5, 2]
+            });
+
+            // Forzar inicio de carga inmediata
+            player.ready(function() {
+                this.load();
+            });
+        }
+    }
+
+    // Ejecutar al cargar (compatible con HTMX)
+    if (document.readyState === 'complete') {
+        startInmobiliariaExperience();
+    } else {
+        document.addEventListener('DOMContentLoaded', startInmobiliariaExperience);
+    }
+</script>
+{% endblock %}

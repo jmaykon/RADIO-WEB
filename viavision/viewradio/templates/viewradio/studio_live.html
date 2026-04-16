@@ -1,0 +1,223 @@
+{% extends request.headers.hx_request|yesno:"viewradio/base_fragment.html,viewradio/base.html" %}
+{% load static %}
+
+{% block content %}
+<link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+<script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+
+<style>
+    /* Efecto Ken Burns (Zoom) */
+    .swiper-slide-active img {
+        animation: kenburns 6s ease-out both;
+    }
+
+    @keyframes kenburns {
+        0% { transform: scale(1); }
+        100% { transform: scale(1.15); }
+    }
+
+    /* Controles del Carrusel */
+    .studioSwiper .swiper-button-next,
+    .studioSwiper .swiper-button-prev {
+        background: rgba(168, 85, 247, 0.2);
+        width: 45px;
+        height: 45px;
+        border-radius: 50%;
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(168, 85, 247, 0.4);
+        color: white !important;
+        transition: all 0.3s ease;
+    }
+
+    .studioSwiper .swiper-button-next:hover,
+    .studioSwiper .swiper-button-prev:hover {
+        background: rgba(168, 85, 247, 0.6);
+        transform: scale(1.1);
+    }
+
+    .studioSwiper .swiper-pagination-bullet {
+        background: rgba(255, 255, 255, 0.3);
+        width: 10px;
+        height: 10px;
+        transition: all 0.4s ease;
+    }
+
+    .studioSwiper .swiper-pagination-bullet-active {
+        background: #a855f7 !important;
+        width: 35px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(168, 85, 247, 0.8);
+    }
+
+    /* Scrollbar sutil para la lista de servicios si excede el tamaño */
+    .services-list {
+        scrollbar-width: thin;
+        scrollbar-color: rgba(168, 85, 247, 0.5) transparent;
+    }
+</style>
+
+<main class="relative z-20 pt-32 md:pt-40 max-w-7xl mx-auto px-6 mb-20 animate-fade-in">
+<br><br>
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
+        <div>
+            <div class="flex items-center gap-3 mb-2">
+                <span class="flex h-3 w-3">
+                    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-purple-500 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-3 w-3 bg-purple-600"></span>
+                </span>
+                <h2 class="text-3xl md:text-5xl font-oswald font-bold uppercase italic text-white tracking-wider">
+                    Set <span class="text-purple-500">Live</span>
+                </h2>
+            </div>
+            <p class="text-gray-400 text-sm md:text-base uppercase tracking-[0.2em]">Producción Audiovisual de Alto Nivel</p>
+        </div>
+        <div class="flex items-center gap-2 px-4 py-2 bg-white/5 rounded-2xl border border-white/10 shadow-[0_0_15px_rgba(34,211,238,0.1)]">
+            <i data-lucide="zap" class="w-5 h-5 text-yellow-400"></i>
+            <span class="text-[10px] font-bold text-gray-300 uppercase ml-2 tracking-widest">Broadcast Ready</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+        <div class="lg:col-span-2">
+            <div class="relative rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl bg-black">
+                <div class="swiper studioSwiper">
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide relative aspect-video">
+                            <img src="{% static 'viewradio/assets/img/estudio/foto1.png' %}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-10">
+                                <div>
+                                    <span class="text-purple-500 font-bold text-[10px] tracking-[0.3em] uppercase">Infraestructura</span>
+                                    <p class="text-white font-oswald uppercase tracking-widest text-2xl md:text-4xl">Cabina de Locución Principal</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide relative aspect-video">
+                            <img src="{% static 'viewradio/assets/img/estudio/foto2.png' %}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-10">
+                                <div>
+                                    <span class="text-cyan-400 font-bold text-[10px] tracking-[0.3em] uppercase">Tecnología</span>
+                                    <p class="text-white font-oswald uppercase tracking-widest text-2xl md:text-4xl">Procesamiento Digital</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="swiper-slide relative aspect-video">
+                            <img src="{% static 'viewradio/assets/img/estudio/foto3.jpg' %}" class="w-full h-full object-cover">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent flex items-end p-10">
+                                <div>
+                                    <span class="text-pink-500 font-bold text-[10px] tracking-[0.3em] uppercase">Visual Studio</span>
+                                    <p class="text-white font-oswald uppercase tracking-widest text-2xl md:text-4xl">Set Multicámara 4K</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="lg:col-span-1">
+            <div class="card-galaxy p-8 rounded-[2.5rem] border border-white/10 h-full flex flex-col justify-between bg-white/5 backdrop-blur-xl">
+                <div>
+                    <h3 class="text-2xl font-oswald font-bold text-white uppercase mb-8 flex items-center gap-3">
+                        <i data-lucide="briefcase" class="w-6 h-6 text-purple-500"></i> Portafolio de Servicios
+                    </h3>
+
+                    <div class="services-list space-y-6 overflow-y-auto max-h-[500px] pr-2">
+                        <div class="flex gap-4 group">
+                            <div class="mt-1 p-2 rounded-lg bg-cyan-400/10 group-hover:bg-cyan-400/20 transition-colors">
+                                <i data-lucide="radio" class="w-5 h-5 text-cyan-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-200 uppercase text-[11px] tracking-wider">Streaming Live Pro</h4>
+                                <p class="text-gray-400 text-[10px] mt-1">Transmisión 4K simultánea a redes sociales.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 group">
+                            <div class="mt-1 p-2 rounded-lg bg-yellow-400/10 group-hover:bg-yellow-400/20 transition-colors">
+                                <i data-lucide="send" class="w-5 h-5 text-yellow-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-200 uppercase text-[11px] tracking-wider">Filmación con Drone</h4>
+                                <p class="text-gray-400 text-[10px] mt-1">Tomas aéreas cinematográficas en 4K/60fps.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 group">
+                            <div class="mt-1 p-2 rounded-lg bg-pink-500/10 group-hover:bg-pink-500/20 transition-colors">
+                                <i data-lucide="camera" class="w-5 h-5 text-pink-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-200 uppercase text-[11px] tracking-wider">Cobertura de Eventos</h4>
+                                <p class="text-gray-400 text-[10px] mt-1">Registro profesional de eventos y conferencias.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 group">
+                            <div class="mt-1 p-2 rounded-lg bg-green-400/10 group-hover:bg-green-400/20 transition-colors">
+                                <i data-lucide="truck" class="w-5 h-5 text-green-400"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-200 uppercase text-[11px] tracking-wider">Estudio Móvil</h4>
+                                <p class="text-gray-400 text-[10px] mt-1">Llevamos la radio y el video a cualquier locación.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4 group">
+                            <div class="mt-1 p-2 rounded-lg bg-purple-500/10 group-hover:bg-purple-500/20 transition-colors">
+                                <i data-lucide="mic" class="w-5 h-5 text-purple-500"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-200 uppercase text-[11px] tracking-wider">Podcasts e Impresiones</h4>
+                                <p class="text-gray-400 text-[10px] mt-1">Grabación de audio de alta fidelidad.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="mt-8 w-full py-4 bg-purple-600/20 border border-purple-500/40 rounded-2xl text-purple-400 font-bold uppercase text-[10px] tracking-[0.4em] hover:bg-purple-600 hover:text-white transition-all duration-500 shadow-lg shadow-purple-900/20">
+                    Solicitar Cotización
+                </button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    function startStudioExperience() {
+        lucide.createIcons();
+
+        // Configuración de Swiper
+        const swiper = new Swiper(".studioSwiper", {
+            loop: true,
+            speed: 1200,
+            effect: "fade",
+            fadeEffect: {
+                crossFade: true
+            },
+            autoplay: {
+                delay: 4500,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+        });
+    }
+
+    // Inicialización
+    if (document.readyState === 'complete') {
+        startStudioExperience();
+    } else {
+        document.addEventListener('DOMContentLoaded', startStudioExperience);
+    }
+</script>
+{% endblock %}
