@@ -1,0 +1,12 @@
+viewradio/
+└── templates/
+    └── viewradio/
+        ├── base.html          
+        ├── home.html
+        └── includes/          
+            ├── head.html
+            ├── header.html
+            ├── footer.html
+            └── scripts.html
+
+asi esta solo tengo el header cual es el head
